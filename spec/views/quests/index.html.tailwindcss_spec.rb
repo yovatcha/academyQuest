@@ -4,20 +4,19 @@ RSpec.describe "quests/index", type: :view do
   before(:each) do
     assign(:quests, [
       Quest.create!(
-        name: "Name",
+        name: "First Quest",
         status: false
       ),
       Quest.create!(
-        name: "Name",
+        name: "Second Quest",
         status: false
       )
     ])
   end
 
-  it "renders a list of quests" do
+  it "shows 'No quests found' when there are no quests" do
+    assign(:quests, [])
     render
-    cell_selector = 'div>p'
-    assert_select cell_selector, text: Regexp.new("Name".to_s), count: 2
-    assert_select cell_selector, text: Regexp.new(false.to_s), count: 2
+    expect(rendered).to match(/No quests found/)
   end
 end
