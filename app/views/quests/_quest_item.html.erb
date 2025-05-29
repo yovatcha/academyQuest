@@ -1,0 +1,30 @@
+<div id="<%= dom_id(quest) %>" class="flex justify-between items-center bg-base-200 p-4 rounded-lg shadow-md" data-controller="quest" data-quest-id="<%= quest.id %>">
+  <!-- Checkbox Toggle -->
+  <%= form_with model: quest, method: :patch, local: true do |f| %>
+    <div class="flex items-center gap-3">
+      <%= check_box_tag "quest[status]",
+          true,
+          quest.status,
+          { class: "checkbox checkbox-primary",
+            data: { action: "change->quest#toggle" } } %>
+      <%= f.hidden_field :name, value: quest.name %>
+      <!-- Responsive quest name display with truncation -->
+      <span data-quest-target="name">
+        <!-- Mobile: truncate to 20 characters -->
+        <span class="block sm:hidden text-lg font-medium <%= 'line-through text-primary' if quest.status? %>" title="<%= quest.name %>">
+          <%= truncate(quest.name, length: 20, omission: '...', separator: ' ') %>
+        </span>
+
+        <!-- Desktop: truncate to 40 characters -->
+        <span class="hidden sm:block text-lg font-medium <%= 'line-through text-primary' if quest.status? %>" title="<%= quest.name %>">
+          <%= truncate(quest.name, length: 60, omission: '...', separator: ' ') %>
+        </span>
+      </span>
+    </div>
+  <% end %>
+
+  <div class="flex gap-2">
+    <%= link_to "👁️", quest_path(quest), class: "btn btn-accent btn-sm", data: { testid: 'view-button'} %>
+    <%= button_to "🗑️", quest, method: :delete, data: { turbo_confirm: "Are you sure?", testid: 'delete-button' }, class: "btn btn-error btn-sm" %>
+  </div>
+</div>

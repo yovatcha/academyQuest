@@ -61,9 +61,9 @@ RSpec.describe "/quests", type: :request do
         }.to change(Quest, :count).by(1)
       end
 
-      it "redirects to the created quest" do
+      it "redirects to the root path after creating a quest" do
         post quests_path, params: { quest: valid_attributes }
-        expect(response).to redirect_to(quest_path(Quest.last))
+        expect(response).to redirect_to(root_path)
       end
     end
 

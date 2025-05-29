@@ -1,0 +1,7 @@
+<%= turbo_stream.prepend "quests" do %>
+  <%= render partial: "quests/quest_item", locals: { quest: @quest } %>
+<% end %>
+
+<%= turbo_stream.update "notice" do %>
+  <div class="alert alert-success shadow-lg mb-4"><span>Quest was successfully created.</span></div>
+<% end %>

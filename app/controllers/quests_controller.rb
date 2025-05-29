@@ -21,14 +21,35 @@ class QuestsController < ApplicationController
 
     respond_to do |format|
       if @quest.save
-        format.html { redirect_to @quest, notice: "Quest was successfully created." }
+        format.html { redirect_to root_path, notice: "Quest was successfully created." }
         format.json { render :show, status: :created, location: @quest }
+        format.turbo_stream
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html {
+          @quests = Quest.order(created_at: :desc)
+          @total_quests = Quest.count
+          @completed_quests = Quest.where(status: true).count
+          @progress_percent = @total_quests.zero? ? 0 : ((@completed_quests.to_f / @total_quests) * 100).round
+          render :index, status: :unprocessable_entity
+        }
         format.json { render json: @quest.errors, status: :unprocessable_entity }
       end
     end
   end
+
+  # def create
+  #   @quest = Quest.new(quest_params)
+
+  #   respond_to do |format|
+  #     if @quest.save
+  #       format.html { redirect_to @quest, notice: "Quest was successfully created." }
+  #       format.json { render :show, status: :created, location: @quest }
+  #     else
+  #       format.html { render :new, status: :unprocessable_entity }
+  #       format.json { render json: @quest.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
   def update
     respond_to do |format|
