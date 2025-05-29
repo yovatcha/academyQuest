@@ -1,9 +1,17 @@
-<% content_for :title, "New quest" %>
+<% content_for :title, "New Quest" %>
 
-<div class="md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">New quest</h1>
+<div class="w-full max-w-3xl mx-auto p-4 space-y-6">
+  <div class="space-y-1">
+    <h1 class="text-4xl font-extrabold text-accent">Create a New Quest</h1>
+    <p class="text-sm text-gray-500">Fill in the details to add your next mission ✍️</p>
+  </div>
 
-  <%= render "form", quest: @quest %>
+  <div class="bg-base-100 shadow-md rounded-xl p-6 space-y-4">
+    <%= render "form", quest: @quest %>
+  </div>
 
-  <%= link_to "Back to quests", quests_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+  <div>
+    <%= link_to "← Back to Quests", quests_path,
+        class: "btn btn-outline btn-primary transition-transform transform hover:-translate-y-1" %>
+  </div>
 </div>

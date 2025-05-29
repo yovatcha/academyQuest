@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" data-theme="light">
   <head>
-    <title><%= content_for(:title) || "Academy Quest" %></title>
+    <title><%= content_for(:title) || "Sunday Todos" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
@@ -23,8 +23,40 @@
   </head>
 
   <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+      <%= render 'shared/navbar' %>
+    <main class="container mx-auto mt-10 px-5 flex">
       <%= yield %>
     </main>
+    <script>
+      function setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        updateThemeSelector(theme);
+      }
+
+      function applyStoredTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+          document.documentElement.setAttribute('data-theme', savedTheme);
+          updateThemeSelector(savedTheme);
+        }
+      }
+
+      function updateThemeSelector(theme) {
+        const selector = document.getElementById('theme-selector');
+        if (selector) {
+          for (let i = 0; i < selector.options.length; i++) {
+            if (selector.options[i].value === theme) {
+              selector.selectedIndex = i;
+              break;
+            }
+          }
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", applyStoredTheme);
+      document.addEventListener("turbo:load", applyStoredTheme);
+    </script>
+
   </body>
 </html>
