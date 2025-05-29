@@ -3,6 +3,9 @@ class QuestsController < ApplicationController
 
   def index
     @quests = Quest.order(created_at: :desc)
+    @total_quests = Quest.count
+    @completed_quests = Quest.where(status: true).count
+    @progress_percent = @total_quests.zero? ? 0 : ((@completed_quests.to_f / @total_quests) * 100).round
   end
 
   def show; end
